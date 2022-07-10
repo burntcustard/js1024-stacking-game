@@ -1,99 +1,129 @@
-let slices = [];
+const slices = [];
 
 b.style.cssText = `
   background: #112;
-  margin: 50vh 0;
+  margin: 50vh 0 0;
   min-height: 50vh;
   display: grid;
   align-content: start;
 `;
 
-function getHsl(index, lightness, alpha = 100) {
-  return `hsl(${index * 4}deg ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
+const updateSlice = (index) => {
+  const box = slices[index].firstChild;
+
+  box[index % 2 ? 'x' : 'y']--;
 }
 
-document.onclick = () => {
-  const slice = document.createElement('div');
-  const box = document.createElement('div');
-  let index = slices.length;
+const renderSlice = (index) => {
+  const box = slices[index].firstChild;
+  const prevBox = slices[index - 1]?.firstChild;
 
-  slices.push(slice);
-  b.append(slice);
-  slice.box = box;
-  slice.append(box);
-
-  const getHsl = (lightness, alpha = 100) =>
-  `hsl(${index * 4}deg ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
-
-  slice.style.cssText = `
+  slices[index].style.cssText = `
     grid-row: -${index};
     display: grid;
     place-items: center;
-    height: 0;
-    transition: all .5s;
+    transition: all.8s;
+    height: ${index === 0 || slices[index].notFirstRender ? '4.2vmin' : '0'};
   `;
+
+  slices[index].notFirstRender = true;
 
   box.style.cssText = `
     position: absolute;
     transform-style: preserve-3d;
-    width: 40vmin;
-    height: 40vmin;
-    background: ${getHsl(65)};
+    width: ${box.w}vmin;
+    height: ${box.h}vmin;
+    background: ${box.getHsla(65)};
+    transform: rotateX(60deg) rotateZ(45deg) translate(${box.x}vmin, ${box.y}vmin)
   `;
 
-  box.x = 0;
-  box.y = 0;
-  box[index % 2 ? 'x' : 'y'] = 180;
-  box.style.transform = `rotateX(60deg) rotateZ(45deg) translate(${box.x}vmin, ${box.y}vmin)`;
+  console.log(prevBox && box.y < prevBox.y);
 
-  requestAnimationFrame(() => {
-    slice.style.height = '4.2vmin';
-  });
-
-  const faceLeft = document.createElement('div');
-  const faceRight = document.createElement('div');
-  const faceCSS = `
+  box.firstChild.style.cssText = `
     transform-style: preserve-3d;
     position: absolute;
-    width: 100%;
+    width: ${box.w}vmin;
     height: 10vmin;
-    transition: all.9s;
-    `;
-
-    faceLeft.style.cssText = faceCSS + `
-    transform: rotateX(-90deg) translateZ(40vmin);
+    transform: rotateX(-90deg) translateZ(${box.h - 0.1}vmin);
     transform-origin: top;
-    background:
-    linear-gradient(
-      ${getHsl(55)} 50%, transparent 0
-      )
-      `;
-      // linear-gradient(-6deg, #0005 0 65%, #0000 70%);
-      // ${getHsl(70)} 0 calc(50% + 1px),
-      // ${getHsl(55, 70)} 0,
-      // ${getHsl(55, 15)}
+    clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
+    background: linear-gradient(
+      ${box.getHsla(55)} 50%,
+      ${box.getHsla(70)} 0 calc(50% + 1px),
+      ${prevBox && box.y < prevBox.y ? `${box.getHsla(55, 80)} 0, ${box.getHsla(55, 20)}` : '#0000 0'}
+    )
+  `;
 
-      faceRight.style.cssText = faceCSS + `
-      transform: rotateX(-90deg) rotateY(90deg);
-      transform-origin: top right;
-      background:
-      linear-gradient(
-        ${getHsl(60)} 50%,
-        ${getHsl(70)} 0 calc(50% + 1px),
-        ${getHsl(60, 70)} 0,
-        ${getHsl(60, 15)}
-        ),
-      linear-gradient(-6deg, #0005 0 65%, #0000 70%);
-      `;
+  box.firstChild.nextElementSibling.style.cssText = `
+    transform-style: preserve-3d;
+    position: absolute;
+    width: 10vmin;
+    height: ${box.h}vmin;
+    transform: rotateY(-90deg) translateZ(${5.1 - box.w}vmin) translateX(-5vmin);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 calc(100% - 6.3vmin));
+    background: linear-gradient(
+      -90deg,
+      ${box.getHsla(60)} 50%,
+      ${box.getHsla(70)} 0 calc(50% + 1px),
+      ${prevBox && box.x < prevBox.x ? `${box.getHsla(55, 80)} 0, ${box.getHsla(55, 20)}` : '#0000 0'}
+    )
+  `;
+}
 
-      box.append(faceLeft, faceRight);
+const addSlice = (width = 40, height = 40) => {
+  const slice = document.createElement('div');
+  const box = document.createElement('div');
+  const faceLeft = document.createElement('div');
+  const faceRight = document.createElement('div');
+  const index = slices.length
+
+  box.w = width;
+  box.h = height; // More like depth
+  box.getHsla = (lightness, alpha = 100) =>
+    `hsl(${index * 4}deg ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
+
+  box[index % 2 ? 'x' : 'y'] = index ? 180 : 0;
+  box[index % 2 ? 'y' : 'x'] = index ? slices[index - 1].firstChild[index % 2 ? 'y' : 'x'] : 0;
+
+  box.append(faceLeft, faceRight);
+
+  b.append(slice);
+
+  slice.append(box);
+  slices.push(slice);
+}
+
+document.onclick = () => {
+  const prevBox = slices.at(-2)?.firstChild;
+  const currBox = slices.at(-1)?.firstChild;
+  let width = 40;
+  let height = 40;
+
+  if (prevBox) {
+    const overlapX = prevBox.x - currBox.x;
+    const overlapY = prevBox.y - currBox.y;
+    width = currBox.w = prevBox.w - Math.abs(overlapX);
+    height = currBox.h = prevBox.h - Math.abs(overlapY);
+    if (width < 0 || height < 0) {
+      alert('ded');
     }
+    currBox.x += overlapX / 2;
+    currBox.y += overlapY / 2;
+    // Rerender the current box one more time (but grey/dead/disabled?)
+    renderSlice(slices.length - 1);
+  }
+
+  // Add a new slice
+  addSlice(width, height);
+}
+
+addSlice();
+renderSlice(0);
 
 // Main game loop
 setInterval(() => {
-  if (slices.length) {
-    const currentBox = slices.at(-1).box;
-    currentBox[(slices.length - 1) % 2 ? 'x' : 'y']--;
-    currentBox.style.transform = `rotateX(60deg) rotateZ(45deg) translate(${currentBox.x}vmin, ${currentBox.y}vmin)`;
+  if (slices.length > 1) {
+    updateSlice(slices.length - 1);
+    renderSlice(slices.length - 1);
   }
-}, 33); // 33ms ~30fps
+}, 17); // 17ms ~59fps
