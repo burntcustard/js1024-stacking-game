@@ -29,9 +29,10 @@ let js = readFileSync('src/main.js', 'utf8');
 js = js
   // Remove whitespace in CSS template literals
   .replace(/ = `[^`]+`/g, tag => tag
-    .replace(/`\s+/, '`')
-    .replace(/\n\s+/g, '')
-    .replace(/;\s+/g, ';')
+    .replace(/`\s+/, '`')  // Remove newlines & spaces at start or string
+    .replace(/\n\s+/g, '') // Remove newlines & spaces within values
+    .replace(/:\s/g, '')   // Remove spaces in between property & values
+    .replace(/;\s+/g, ';') // Remove newlines & spaces after semicolons
   )
   // Remove final semi in CSS template literals
   .replaceAll(/(`+);(\s+`)/g, '$1$2')
