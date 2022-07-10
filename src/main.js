@@ -8,17 +8,8 @@ b.style.cssText = `
   align-content: start;
 `;
 
-const updateSlice = (index) => {
-  const box = slices[index].firstChild;
-
-  box[index % 2 ? 'x' : 'y']--;
-}
-
 const renderSlice = (index) => {
   const box = slices[index].firstChild;
-  // const prevBox = slices[index - 1] && slices[index - 1].firstChild;
-  const prevBoxX = slices[index - 1]?.firstChild.x || 0;
-  const prevBoxY = slices[index - 1]?.firstChild.y || 0;
   const reflection = `${box.getHsla(55, 80)} 0, ${box.getHsla(55, 20)}`;
 
   slices[index].style.cssText = `
@@ -37,7 +28,7 @@ const renderSlice = (index) => {
     width: ${box.w}vmin;
     height: ${box.h}vmin;
     background: ${box.getHsla(65)};
-    transform: rotateX(60deg) rotateZ(45deg) translate(${box.x}vmin, ${box.y}vmin)
+    transform: rotateX(60deg) rotateZ(45deg) translate(${box.x}vmin, ${box.y}vmin);
   `;
 
   box.firstChild.style.cssText = `
@@ -52,7 +43,7 @@ const renderSlice = (index) => {
       ${box.getHsla(55)} 50%,
       ${box.getHsla(70)} 0 calc(50% + 1px),
       ${box.y < slices[index - 1]?.firstChild.y || 0 ? reflection : '#0000 0'}
-    )
+    );
   `;
 
   box.firstChild.nextElementSibling.style.cssText = `
@@ -67,7 +58,7 @@ const renderSlice = (index) => {
       ${box.getHsla(60)} 50%,
       ${box.getHsla(70)} 0 calc(50% + 1px),
       ${box.x < slices[index - 1]?.firstChild.x || 0 ? reflection : '#0000 0'}
-    )
+    );
   `;
 }
 
@@ -95,30 +86,31 @@ const addSlice = (width = 40, height = 40) => {
 }
 
 const handleClick = (event) => {
-  if (event.key && event.key !== ' ') return;
-  event.preventDefault();
+  if (!event.key || event.key === ' ') {
+    event.preventDefault();
 
-  const prevBox = slices.at(-2)?.firstChild;
-  const currBox = slices.at(-1)?.firstChild;
-  let width = 40;
-  let height = 40;
+    const prevBox = slices.at(-2)?.firstChild;
+    const currBox = slices.at(-1)?.firstChild;
+    const width = 40;
+    const height = 40;
 
-  if (prevBox) {
-    const overlapX = prevBox.x - currBox.x;
-    const overlapY = prevBox.y - currBox.y;
-    width = currBox.w = prevBox.w - Math.abs(overlapX);
-    height = currBox.h = prevBox.h - Math.abs(overlapY);
-    if (width < 0 || height < 0) {
-      alert('ded');
+    if (prevBox) {
+      const overlapX = prevBox.x - currBox.x;
+      const overlapY = prevBox.y - currBox.y;
+      width = currBox.w = prevBox.w - Math.abs(overlapX);
+      height = currBox.h = prevBox.h - Math.abs(overlapY);
+      if (width < 0 || height < 0) {
+        alert('ded');
+      }
+      currBox.x += overlapX / 2;
+      currBox.y += overlapY / 2;
+      // Rerender the current box one more time (but grey/dead/disabled?)
+      renderSlice(slices.length - 1);
     }
-    currBox.x += overlapX / 2;
-    currBox.y += overlapY / 2;
-    // Rerender the current box one more time (but grey/dead/disabled?)
-    renderSlice(slices.length - 1);
-  }
 
-  // Add a new slice
-  addSlice(width, height);
+    // Add a new slice
+    addSlice(width, height);
+  }
 }
 
 document.onclick = document.onkeydown = handleClick;
@@ -129,7 +121,7 @@ renderSlice(0);
 // Main game loop
 setInterval(() => {
   if (slices.length > 1) {
-    updateSlice(slices.length - 1);
-    renderSlice(slices.length - 1);
+    slices[slices.length -1].firstChild[(slices.length - 1) % 2 ? 'x' : 'y']--;
+    renderSlice(slices.length -1);
   }
 }, 17); // 17ms ~59fps
