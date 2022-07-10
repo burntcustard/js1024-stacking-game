@@ -41,7 +41,7 @@ const renderSlice = (index) => {
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
     background: linear-gradient(
       ${box.getHsla(55)} 50%,
-      ${box.getHsla(70)} 0 calc(50% + 1px),
+      ${box.getHsla(65)} 0 calc(50% + 1px),
       ${box.y < slices[index - 1]?.firstChild.y || 0 ? reflection : '#0000 0'}
     );
   `;
@@ -56,7 +56,7 @@ const renderSlice = (index) => {
     background: linear-gradient(
       -90deg,
       ${box.getHsla(60)} 50%,
-      ${box.getHsla(70)} 0 calc(50% + 1px),
+      ${box.getHsla(65)} 0 calc(50% + 1px),
       ${box.x < slices[index - 1]?.firstChild.x || 0 ? reflection : '#0000 0'}
     );
   `;
