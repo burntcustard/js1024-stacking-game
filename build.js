@@ -5,12 +5,12 @@ import { minify as minifyHtml } from 'html-minifier';
 const options = {
   toplevel: true,
   compress: {
-    // passes: 2,
-    // unsafe: true,
-    // unsafe_arrows: true,
-    // unsafe_comps: true,
-    // unsafe_math: true,
-    // booleans_as_integers: true,
+    passes: 2,
+    unsafe: true,
+    unsafe_arrows: true,
+    unsafe_comps: true,
+    unsafe_math: true,
+    booleans_as_integers: true,
   },
   mangle: {
    properties: {
@@ -24,7 +24,7 @@ let js = readFileSync('src/main.js', 'utf8');
 // Some custom mangling of JS to assist / work around Terser
 js = js
   // Remove whitespace in CSS template literals
-  // .replace(/ = `[^`]+`/g, tag => tag.replace(/\s+/g, ''))
+  .replace(/`[^`]+`/g, tag => tag.replace(/\n+\s+/g, '').replace(/:\s+/g, ':'))
   // Replace const with let
   // .replaceAll('const', 'let')
   // Replace all strict equality comparison with abstract equality comparison
