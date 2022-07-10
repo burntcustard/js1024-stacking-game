@@ -31,7 +31,7 @@ js = js
   .replace(/ = `[^`]+`/g, tag => tag
     .replace(/`\s+/, '`')  // Remove newlines & spaces at start or string
     .replace(/\n\s+/g, '') // Remove newlines & spaces within values
-    .replace(/:\s/g, '')   // Remove spaces in between property & values
+    .replace(/:\s/g, ':')  // Remove spaces in between property & values
     .replace(/;\s+/g, ';') // Remove newlines & spaces after semicolons
   )
   // Remove final semi in CSS template literals
