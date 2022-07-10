@@ -27,8 +27,8 @@ const renderSlice = (index) => {
     position: absolute;
     width: ${box.w}vmin;
     height: ${box.h}vmin;
-    background: ${box.getHsla(65)};
     transform: rotateX(60deg) rotateZ(45deg) translate(${box.x}vmin, ${box.y}vmin);
+    background: ${box.getHsla(65)};
   `;
 
   box.firstChild.style.cssText = `
@@ -38,12 +38,12 @@ const renderSlice = (index) => {
     height: 10vmin;
     transform: rotateX(-90deg) translateZ(${box.h - 0.1}vmin);
     transform-origin: top;
-    clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
     background: linear-gradient(
       ${box.getHsla(55)} 50%,
       ${box.getHsla(65)} 0 calc(50% + 1px),
       ${box.y < slices[index - 1]?.firstChild.y || 0 ? reflection : '#0000 0'}
     );
+    clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
   `;
 
   box.firstChild.nextElementSibling.style.cssText = `
@@ -52,15 +52,15 @@ const renderSlice = (index) => {
     width: 10vmin;
     height: ${box.h}vmin;
     transform: rotateY(-90deg) translateZ(${5.1 - box.w}vmin) translateX(-5vmin);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 calc(100% - 6.3vmin));
     background: linear-gradient(
       -90deg,
       ${box.getHsla(60)} 50%,
       ${box.getHsla(65)} 0 calc(50% + 1px),
       ${box.x < slices[index - 1]?.firstChild.x || 0 ? reflection : '#0000 0'}
     );
-  `;
-}
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 calc(100% - 6.3vmin));
+    `;
+  }
 
 const addSlice = (width = 40, height = 40) => {
   const slice = document.createElement('div');
