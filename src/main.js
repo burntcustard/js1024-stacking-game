@@ -2,8 +2,8 @@ const slices = [];
 
 b.style.cssText = `
   background: #112;
-  margin: 50vh 0 0;
-  min-height: 50vh;
+  margin: 45vh 0 0;
+  min-height: 55vh;
   display: grid;
   align-content: start;
 `;
@@ -23,8 +23,8 @@ const renderSlice = (index) => {
   slices[index].notFirstRender = true;
 
   box.style.cssText = `
-    position: absolute;
     transform-style: preserve-3d;
+    position: absolute;
     width: ${box.w}vmin;
     height: ${box.h}vmin;
     background: ${box.getHsla(65)};

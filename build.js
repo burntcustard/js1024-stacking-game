@@ -28,7 +28,11 @@ let js = readFileSync('src/main.js', 'utf8');
 // Some custom mangling of JS to assist / work around Terser
 js = js
   // Remove whitespace in CSS template literals
-  .replace(/ = `[^`]+`/g, tag => tag.replace(/`\s+/, '`').replace(/;\s+/g, ';'))
+  .replace(/ = `[^`]+`/g, tag => tag
+    .replace(/`\s+/, '`')
+    .replace(/\n\s+/g, '')
+    .replace(/;\s+/g, ';')
+  )
   // Remove final semi in CSS template literals
   .replaceAll(/(`+);(\s+`)/g, '$1$2')
   // Replace const with let
@@ -53,7 +57,17 @@ const inlined = html.replace(
   `<script>${packed}</script>`,
 );
 
+const inlinedNonPacked = html.replace(
+  /<script[^>]*><\/script>/,
+  `<script>${minifiedJs.code}</script>`,
+);
+
 const minifiedInlined = minifyHtml(inlined, {
+  removeAttributeQuotes: true,
+  collapseWhitespace: true,
+});
+
+const minifiedInlinedNonPacked = minifyHtml(inlinedNonPacked, {
   removeAttributeQuotes: true,
   collapseWhitespace: true,
 });
@@ -68,6 +82,6 @@ const mangled = minifiedInlined
 
 console.log(`Mangled: ${mangled.length}B`);
 
+writeFileSync('index.nonpacked.html', minifiedInlinedNonPacked);
 writeFileSync('index.watch.html', minifiedInlined);
-
 writeFileSync('index.html', mangled);
