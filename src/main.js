@@ -94,7 +94,7 @@ const handleClick = (event) => {
       currBox.h = prevBox.h - Math.abs(overlapY);
 
       if (currBox.w < 0 || currBox.h < 0) {
-        alert('Missed!');
+        alert('Game Over!');
       }
 
       currBox.x += overlapX / 2;
@@ -114,9 +114,8 @@ const handleClick = (event) => {
 b.style.cssText = `
   background: #112;
   margin: 45vh 0 0;
-  height: 55vh;
+  max-height: 55vh;
   display: grid;
-  align-content: start;
   overflow-x: hidden;
   width: 100vw;
 `;
