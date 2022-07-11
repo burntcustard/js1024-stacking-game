@@ -49,10 +49,11 @@ const minifiedJs = await minifyJs(js, options);
 
 const code = minifiedJs.code
   // Replace double-quote with string literal to make same as other CSS strings
-  .replace(
-    '"background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start"',
-    '`background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start`'
-  );
+  // TODO: Turn back on as it saves about 2B but is hard to maintain
+  // .replace(
+  //   '"background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start"',
+  //   '`background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start`'
+  // );
 
 const packed = cmdRegPack(code, {
   crushGainFactor: parseFloat(5),
