@@ -76,7 +76,8 @@ const addSlice = (width = 40, height = 40) => {
   b.append(slice);
 
   slice.append(box);
-  slices.push(slice);
+  // slices.push(slice); // Replaced with index method of pushing to save 4B
+  slices[slices.length] = slice;
 }
 
 const handleClick = (event) => {
