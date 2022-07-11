@@ -4,15 +4,15 @@ const renderSlice = (index) => {
   const box = slices[index].children[0];
   const reflection = `${box.getHsla(55, 80)} 0, ${box.getHsla(55, 20)}`;
 
+  // If this is the first render of the slice, slice.style.cssText is undefined, so
+  // the height should be 0 to allow a transition next render to it's actual height
   slices[index].style.cssText = `
     grid-row: -${index};
     display: grid;
     place-items: center;
     transition: all.8s;
-    height: ${index && !slices[index].notFirstRender ? '0' : '4.2'}vmin
+    height: ${index && !slices[index].style.cssText ? '0' : '4.2'}vmin
   `;
-
-  slices[index].notFirstRender = true;
 
   box.style.cssText = `
     transform-style: preserve-3d;
