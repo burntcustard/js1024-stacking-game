@@ -86,16 +86,14 @@ const handleClick = (event) => {
 
     const prevBox = slices[slices.length - 2]?.children[0];
     const currBox = slices[slices.length - 1]?.children[0];
-    let width = 40;
-    let height = 40;
 
     if (prevBox) {
       const overlapX = prevBox.x - currBox.x;
       const overlapY = prevBox.y - currBox.y;
-      width = currBox.w = prevBox.w - Math.abs(overlapX);
-      height = currBox.h = prevBox.h - Math.abs(overlapY);
+      currBox.w = prevBox.w - Math.abs(overlapX);
+      currBox.h = prevBox.h - Math.abs(overlapY);
 
-      if (width < 0 || height < 0) {
+      if (currBox.w < 0 || currBox.h < 0) {
         alert('Missed!');
       }
 
@@ -107,7 +105,7 @@ const handleClick = (event) => {
     }
 
     // Add a new slice
-    addSlice(width, height);
+    addSlice(currBox.w, currBox.h);
   }
 }
 
