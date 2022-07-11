@@ -2,6 +2,7 @@ const slices = [];
 
 const renderSlice = (index) => {
   const box = slices[index].children[0];
+  // reflection must be separate (not in .cssText), as regpack breaks nested template literals
   const reflection = `${box.getHsla(55, 80)} 0, ${box.getHsla(55, 20)}`;
 
   // If this is the first render of the slice, slice.style.cssText is undefined, so
