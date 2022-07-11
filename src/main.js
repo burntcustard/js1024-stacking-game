@@ -131,7 +131,8 @@ renderSlice(0);
 // Main game loop
 setInterval(() => {
   if (slices.length > 1) {
-    slices[slices.length -1].children[0][(slices.length - 1) % 2 ? 'x' : 'y']--;
+    // Move the most recently added box on the x or y dimension, dependant on it's slices index
+    slices[slices.length -1].children[0]['xyx'[(slices.length) % 2]]--;
     renderSlice(slices.length -1);
   }
 }, 17); // 17ms ~59fps
