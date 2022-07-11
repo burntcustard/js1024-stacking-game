@@ -20,7 +20,7 @@ const renderSlice = (index) => {
     position: absolute;
     width: ${box.w}vmin;
     height: ${box.h}vmin;
-    transform: rotateX(60deg) rotateZ(45deg) translate(${box.x}vmin, ${box.y}vmin);
+    transform: rotateX(67grad) rotateZ(50grad) translate(${box.x}vmin, ${box.y}vmin);
     background: ${box.getHsla(65)};
   `;
 
@@ -30,7 +30,7 @@ const renderSlice = (index) => {
     position: absolute;
     width: ${box.w}vmin;
     height: 10vmin;
-    transform: rotateX(-90deg);
+    transform: rotateX(-100grad);
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
     transform-origin: top left;
     top: calc(100% - 1px);
@@ -46,7 +46,7 @@ const renderSlice = (index) => {
     position: absolute;
     width: ${box.h}vmin;
     height: 10vmin;
-    transform: rotateX(-90deg) rotateY(90deg) scaleX(-1);
+    transform: rotateX(-100grad) rotateY(100grad) scaleX(-1);
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
     transform-origin: top left;
     left: calc(100% - 1px);
@@ -65,7 +65,7 @@ const addSlice = (width = 40, height = 40) => {
   box.w = width;
   box.h = height; // More like depth
   box.getHsla = (lightness, alpha = 100) =>
-    `hsl(${slices.length * 4}deg ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
+    `hsl(${slices.length * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
 
   box['yx'[slices.length % 2]] = slices.length ? 180 : 0;
   box['xy'[slices.length % 2]] = slices.length ? slices[slices.length - 1].children[0]['xy'[slices.length % 2]] : 0;
