@@ -50,8 +50,8 @@ const minifiedJs = await minifyJs(js, options);
 const code = minifiedJs.code
   // Replace double-quote with string literal to make same as other CSS strings
   .replace(
-    '"background:#112;margin:45vh 0 0;min-height:55vh;display:grid;align-content:start"',
-    '`background:#112;margin:45vh 0 0;min-height:55vh;display:grid;align-content:start`'
+    '"background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start"',
+    '`background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start`'
   );
 
 const packed = cmdRegPack(code, {
