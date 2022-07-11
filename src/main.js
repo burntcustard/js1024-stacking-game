@@ -94,11 +94,14 @@ const handleClick = (event) => {
       const overlapY = prevBox.y - currBox.y;
       width = currBox.w = prevBox.w - Math.abs(overlapX);
       height = currBox.h = prevBox.h - Math.abs(overlapY);
+
       if (width < 0 || height < 0) {
-        alert('ded');
+        alert('Missed!');
       }
+
       currBox.x += overlapX / 2;
       currBox.y += overlapY / 2;
+
       // Rerender the current box one more time (but grey/dead/disabled?)
       renderSlice(slices.length - 1);
     }
@@ -111,7 +114,7 @@ const handleClick = (event) => {
 b.style.cssText = `
   background: #112;
   margin: 45vh 0 0;
-  min-height: 55vh;
+  height: 55vh;
   display: grid;
   align-content: start;
 `;
