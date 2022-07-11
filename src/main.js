@@ -9,7 +9,7 @@ b.style.cssText = `
 `;
 
 const renderSlice = (index) => {
-  const box = slices[index].firstChild;
+  const box = slices[index].children[0];
   const reflection = `${box.getHsla(55, 80)} 0, ${box.getHsla(55, 20)}`;
 
   slices[index].style.cssText = `
@@ -17,7 +17,7 @@ const renderSlice = (index) => {
     display: grid;
     place-items: center;
     transition: all.8s;
-    height: ${index === 0 || slices[index].notFirstRender ? '4.2vmin' : '0'};
+    height: ${index && !slices[index].notFirstRender ? '0' : '4.2'}vmin
   `;
 
   slices[index].notFirstRender = true;
@@ -31,7 +31,8 @@ const renderSlice = (index) => {
     background: ${box.getHsla(65)};
   `;
 
-  box.firstChild.style.cssText = `
+  // Transform-style not required but makes more similar to box css for regpacking
+  box.children[0].style.cssText = `
     transform-style: preserve-3d;
     position: absolute;
     width: ${box.w}vmin;
@@ -43,11 +44,11 @@ const renderSlice = (index) => {
     background: linear-gradient(
       ${box.getHsla(55)} 50%,
       ${box.getHsla(65)} 0 calc(50% + 1px),
-      ${box.y < slices[index - 1]?.firstChild.y || 0 ? reflection : '#0000 0'}
+      ${box.y < slices[index - 1]?.children[0].y || 0 ? reflection : '#0000 0'}
     );
   `;
 
-  box.firstChild.nextSibling.style.cssText = `
+  box.children[1].style.cssText = `
     transform-style: preserve-3d;
     position: absolute;
     width: ${box.h}vmin;
@@ -59,7 +60,7 @@ const renderSlice = (index) => {
     background: linear-gradient(
       ${box.getHsla(60)} 50%,
       ${box.getHsla(65)} 0 calc(50% + 1px),
-      ${box.x < slices[index - 1]?.firstChild.x || 0 ? reflection : '#0000 0'}
+      ${box.x < slices[index - 1]?.children[0].x || 0 ? reflection : '#0000 0'}
     );
   `;
 }
@@ -69,7 +70,7 @@ const addSlice = (width = 40, height = 40) => {
   const box = document.createElement('div');
   const faceLeft = document.createElement('div');
   const faceRight = document.createElement('div');
-  const index = slices.length
+  const index = slices.length;
 
   box.w = width;
   box.h = height; // More like depth
@@ -77,7 +78,7 @@ const addSlice = (width = 40, height = 40) => {
     `hsl(${index * 4}deg ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
 
   box[index % 2 ? 'x' : 'y'] = index ? 180 : 0;
-  box[index % 2 ? 'y' : 'x'] = index ? slices[index - 1].firstChild[index % 2 ? 'y' : 'x'] : 0;
+  box[index % 2 ? 'y' : 'x'] = index ? slices[index - 1].children[0][index % 2 ? 'y' : 'x'] : 0;
 
   box.append(faceLeft, faceRight);
 
@@ -91,8 +92,8 @@ const handleClick = (event) => {
   if (!event.key || event.key === ' ') {
     event.preventDefault();
 
-    const prevBox = slices[slices.length - 2]?.firstChild;
-    const currBox = slices[slices.length - 1]?.firstChild;
+    const prevBox = slices[slices.length - 2]?.children[0];
+    const currBox = slices[slices.length - 1]?.children[0];
     const width = 40;
     const height = 40;
 
@@ -123,7 +124,7 @@ renderSlice(0);
 // Main game loop
 setInterval(() => {
   if (slices.length > 1) {
-    slices[slices.length -1].firstChild[(slices.length - 1) % 2 ? 'x' : 'y']--;
+    slices[slices.length -1].children[0][(slices.length - 1) % 2 ? 'x' : 'y']--;
     renderSlice(slices.length -1);
   }
 }, 17); // 17ms ~59fps

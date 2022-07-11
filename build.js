@@ -34,9 +34,8 @@ js = js
     .replace(/:\s/g, ':')  // Remove spaces in between property & values
     .replace(/\,\s/g, ',') // Remove space after commas
     .replace(/;\s+/g, ';') // Remove newlines & spaces after semicolons
+    .replace(/;`/, '`') // Remove final semicolons
   )
-  // Remove final semi in CSS template literals
-  .replaceAll(/(`+);(\s+`)/g, '$1$2')
   // Replace const with let
   .replaceAll('const', 'let')
   // Hoist for() vars to global (very risky) ~4B
@@ -48,7 +47,14 @@ js = js
 
 const minifiedJs = await minifyJs(js, options);
 
-const packed = cmdRegPack(minifiedJs.code, {
+const code = minifiedJs.code
+  // Replace double-quote with string literal to make same as other CSS strings
+  .replace(
+    '"background:#112;margin:45vh 0 0;min-height:55vh;display:grid;align-content:start"',
+    '`background:#112;margin:45vh 0 0;min-height:55vh;display:grid;align-content:start`'
+  );
+
+const packed = cmdRegPack(code, {
   crushGainFactor: parseFloat(5),
 });
 
@@ -61,7 +67,7 @@ const inlined = html.replace(
 
 const inlinedNonPacked = html.replace(
   /<script[^>]*><\/script>/,
-  `<script>${minifiedJs.code}</script>`,
+  `<script>${code}</script>`,
 );
 
 const minifiedInlined = minifyHtml(inlined, {
