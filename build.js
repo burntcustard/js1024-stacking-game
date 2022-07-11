@@ -34,6 +34,7 @@ js = js
     .replace(/:\s/g, ':')  // Remove spaces in between property & values
     .replace(/\,\s/g, ',') // Remove space after commas
     .replace(/;\s+/g, ';') // Remove newlines & spaces after semicolons
+    .replace(/\)\s/g, ')') // Remove spaces after closing brackets
     .replace(/;`/, '`') // Remove final semicolons
   )
   // Replace const with let
