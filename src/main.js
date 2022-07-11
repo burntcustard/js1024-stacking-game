@@ -1,13 +1,5 @@
 const slices = [];
 
-b.style.cssText = `
-  background: #112;
-  margin: 45vh 0 0;
-  min-height: 55vh;
-  display: grid;
-  align-content: start;
-`;
-
 const renderSlice = (index) => {
   const box = slices[index].children[0];
   const reflection = `${box.getHsla(55, 80)} 0, ${box.getHsla(55, 20)}`;
@@ -94,8 +86,8 @@ const handleClick = (event) => {
 
     const prevBox = slices[slices.length - 2]?.children[0];
     const currBox = slices[slices.length - 1]?.children[0];
-    const width = 40;
-    const height = 40;
+    let width = 40;
+    let height = 40;
 
     if (prevBox) {
       const overlapX = prevBox.x - currBox.x;
@@ -115,6 +107,14 @@ const handleClick = (event) => {
     addSlice(width, height);
   }
 }
+
+b.style.cssText = `
+  background: #112;
+  margin: 45vh 0 0;
+  min-height: 55vh;
+  display: grid;
+  align-content: start;
+`;
 
 document.onclick = document.onkeydown = handleClick;
 
