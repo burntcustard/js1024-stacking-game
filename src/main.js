@@ -81,7 +81,7 @@ const addSlice = (width = 40, height = 40) => {
 }
 
 const handleClick = (event) => {
-  if (!event.key || event.key === ' ') {
+  if (event.x || event.key === ' ') {
     event.preventDefault();
 
     const prevBox = slices[slices.length - 2]?.children[0];
