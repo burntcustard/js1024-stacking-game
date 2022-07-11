@@ -60,19 +60,17 @@ const renderSlice = (index) => {
 const addSlice = (width = 40, height = 40) => {
   const slice = document.createElement('div');
   const box = document.createElement('div');
-  const faceLeft = document.createElement('div');
-  const faceRight = document.createElement('div');
-  const index = slices.length;
 
   box.w = width;
   box.h = height; // More like depth
   box.getHsla = (lightness, alpha = 100) =>
-    `hsl(${index * 4}deg ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
+    `hsl(${slices.length * 4}deg ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
 
-  box[index % 2 ? 'x' : 'y'] = index ? 180 : 0;
-  box[index % 2 ? 'y' : 'x'] = index ? slices[index - 1].children[0][index % 2 ? 'y' : 'x'] : 0;
+  box[slices.length % 2 ? 'x' : 'y'] = slices.length ? 180 : 0;
+  box[slices.length % 2 ? 'y' : 'x'] = slices.length ? slices[slices.length - 1].children[0][slices.length % 2 ? 'y' : 'x'] : 0;
 
-  box.append(faceLeft, faceRight);
+  // faceLeft and faceRight
+  box.append(document.createElement('div'), document.createElement('div'));
 
   b.append(slice);
 
