@@ -59,8 +59,8 @@ const renderSlice = (index) => {
       ${box.x < slices[index - 1]?.firstChild.x || 0 ? reflection : '#0000 0'}
     );
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 calc(100% - 6.3vmin));
-    `;
-  }
+  `;
+}
 
 const addSlice = (width = 40, height = 40) => {
   const slice = document.createElement('div');
