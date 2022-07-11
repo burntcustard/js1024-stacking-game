@@ -36,29 +36,31 @@ const renderSlice = (index) => {
     position: absolute;
     width: ${box.w}vmin;
     height: 10vmin;
-    transform: rotateX(-90deg) translateZ(${box.h - 0.1}vmin);
-    transform-origin: top;
+    transform: rotateX(-90deg);
+    clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
+    transform-origin: top left;
+    top: calc(100% - 1px);
     background: linear-gradient(
       ${box.getHsla(55)} 50%,
       ${box.getHsla(65)} 0 calc(50% + 1px),
       ${box.y < slices[index - 1]?.firstChild.y || 0 ? reflection : '#0000 0'}
     );
-    clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
   `;
 
-  box.firstChild.nextElementSibling.style.cssText = `
+  box.firstChild.nextSibling.style.cssText = `
     transform-style: preserve-3d;
     position: absolute;
-    width: 10vmin;
-    height: ${box.h}vmin;
-    transform: rotateY(-90deg) translateZ(${5.1 - box.w}vmin) translateX(-5vmin);
+    width: ${box.h}vmin;
+    height: 10vmin;
+    transform: rotateX(-90deg) rotateY(90deg) scaleX(-1);
+    clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
+    transform-origin: top left;
+    left: calc(100% - 1px);
     background: linear-gradient(
-      -90deg,
       ${box.getHsla(60)} 50%,
       ${box.getHsla(65)} 0 calc(50% + 1px),
       ${box.x < slices[index - 1]?.firstChild.x || 0 ? reflection : '#0000 0'}
     );
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 calc(100% - 6.3vmin));
   `;
 }
 
@@ -89,8 +91,8 @@ const handleClick = (event) => {
   if (!event.key || event.key === ' ') {
     event.preventDefault();
 
-    const prevBox = slices.at(-2)?.firstChild;
-    const currBox = slices.at(-1)?.firstChild;
+    const prevBox = slices[slices.length - 2]?.firstChild;
+    const currBox = slices[slices.length - 1]?.firstChild;
     const width = 40;
     const height = 40;
 
