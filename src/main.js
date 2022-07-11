@@ -135,4 +135,4 @@ setInterval(() => {
     slices[slices.length -1].children[0]['xyx'[(slices.length) % 2]]--;
     renderSlice(slices.length -1);
   }
-}, 17); // 17ms ~59fps
+}, 18); // 17ms ~59fps
