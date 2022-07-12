@@ -81,7 +81,8 @@ const addSlice = (width = 40, height = 40) => {
 }
 
 const handleClick = (event) => {
-  if (event.x || event.key === ' ') {
+  // Removed mouse or spacebar check to save a few bytes
+  // if (event.x || event.key === ' ') {
     event.preventDefault();
 
     const prevBox = slices[slices.length - 2]?.children[0];
@@ -106,7 +107,7 @@ const handleClick = (event) => {
 
     // Add a new slice
     addSlice(currBox.w, currBox.h);
-  }
+  // }
 }
 
 // overflow-x: hidden hides the horizontal scrollbar
