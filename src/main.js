@@ -2,10 +2,14 @@ const slices = [];
 
 const renderSlice = () => {
   const box = slices[slices.length - 1].children[0];
+  // getHsla manually inlined to save a few bytes
+  // const getHsla = (lightness, alpha = 100) =>
+  //   `hsl(${(slices.length - 1) * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
   // reflection must be separate (not in .cssText), as regpack breaks nested template literals
-  const getHsla = (lightness, alpha = 100) =>
-    `hsl(${(slices.length - 1) * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
-  const reflection = `${getHsla(55, 80)} 0, ${getHsla(55, 20)}`;
+  const reflection = `
+    hsl(${(slices.length - 1) * 4}grad 80% 55% / 80%) 0,
+    hsl(${(slices.length - 1) * 4}grad 80% 55% / 20%)
+  `;
 
   // If this is the first render of the slice, slice.style.cssText is undefined, so
   // the height should be 0 to allow a transition next render to it's actual height
@@ -23,7 +27,7 @@ const renderSlice = () => {
     width: ${box.w}vmin;
     height: ${box.h}vmin;
     transform: rotateX(67grad) rotateZ(50grad) translate(${box.x}vmin, ${box.y}vmin);
-    background: ${getHsla(65)};
+    background: hsl(${(slices.length - 1) * 4}grad 100% 65%);
   `;
 
   // Transform-style not required but makes more similar to box css for regpacking
@@ -37,8 +41,8 @@ const renderSlice = () => {
     transform-origin: top left;
     top: calc(100% - 1px);
     background: linear-gradient(
-      ${getHsla(55)} 50%,
-      ${getHsla(65)} 0 calc(50% + 1px),
+      hsl(${(slices.length - 1) * 4}grad 80% 55%) 50%,
+      hsl(${(slices.length - 1) * 4}grad 100% 65%) 0 calc(50% + 1px),
       ${box.y < slices[slices.length - 2]?.children[0].y || 0 ? reflection : '#0000 0'}
     );
   `;
@@ -53,8 +57,8 @@ const renderSlice = () => {
     transform-origin: top left;
     left: calc(100% - 1px);
     background: linear-gradient(
-      ${getHsla(60)} 50%,
-      ${getHsla(65)} 0 calc(50% + 1px),
+      hsl(${(slices.length - 1) * 4}grad 90% 60%) 50%,
+      hsl(${(slices.length - 1) * 4}grad 100% 65%) 0 calc(50% + 1px),
       ${box.x < slices[slices.length - 2]?.children[0].x || 0 ? reflection : '#0000 0'}
     );
   `;
@@ -101,9 +105,10 @@ const handleClick = (event) => {
       currBox.x += overlapX / 2;
       currBox.y += overlapY / 2;
 
-      // Rerender the current box one more time (but grey/dead/disabled?)
-      renderSlice();
     }
+
+    // Rerender the current box one more time (but grey/dead/disabled?)
+    renderSlice();
 
     // Add a new slice
     addSlice(currBox.w, currBox.h);
