@@ -68,7 +68,7 @@ const addSlice = (width = 40, height = 40) => {
     `hsl(${slices.length * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
 
   box['yx'[slices.length % 2]] = slices.length ? 180 : 0;
-  box['xy'[slices.length % 2]] = slices.length ? slices[slices.length - 1].children[0]['xy'[slices.length % 2]] : 0;
+  box['xyx'[slices.length % 2]] = slices.length ? slices[slices.length - 1].children[0]['xyx'[slices.length % 2]] : 0;
 
   // faceLeft and faceRight
   box.append(document.createElement('div'), document.createElement('div'));
