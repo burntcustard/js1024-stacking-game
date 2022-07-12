@@ -114,7 +114,7 @@ const handleClick = (event) => {
 b.style.cssText = `
   background: #112;
   margin: 45vh 0 0;
-  min-height: 55vh;
+  align-content: start;
   display: grid;
   overflow-x: hidden;
   width: 100vw;
