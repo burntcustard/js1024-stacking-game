@@ -1,20 +1,20 @@
 const slices = [];
 
-const renderSlice = (index) => {
-  const box = slices[index].children[0];
+const renderSlice = () => {
+  const box = slices[slices.length - 1].children[0];
   // reflection must be separate (not in .cssText), as regpack breaks nested template literals
   const getHsla = (lightness, alpha = 100) =>
-    `hsl(${index * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
+    `hsl(${(slices.length - 1) * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
   const reflection = `${getHsla(55, 80)} 0, ${getHsla(55, 20)}`;
 
   // If this is the first render of the slice, slice.style.cssText is undefined, so
   // the height should be 0 to allow a transition next render to it's actual height
-  slices[index].style.cssText = `
-    grid-row: -${index};
+  slices[slices.length - 1].style.cssText = `
+    grid-row: -${slices.length - 1};
     display: grid;
     place-items: center;
     transition: all.8s;
-    height: ${index && !slices[index].style.cssText ? '0' : '4.2'}vmin
+    height: ${slices.length - 1 && !slices[slices.length - 1].style.cssText ? '0' : '4.2'}vmin
   `;
 
   box.style.cssText = `
@@ -39,7 +39,7 @@ const renderSlice = (index) => {
     background: linear-gradient(
       ${getHsla(55)} 50%,
       ${getHsla(65)} 0 calc(50% + 1px),
-      ${box.y < slices[index - 1]?.children[0].y || 0 ? reflection : '#0000 0'}
+      ${box.y < slices[slices.length - 2]?.children[0].y || 0 ? reflection : '#0000 0'}
     );
   `;
 
@@ -55,7 +55,7 @@ const renderSlice = (index) => {
     background: linear-gradient(
       ${getHsla(60)} 50%,
       ${getHsla(65)} 0 calc(50% + 1px),
-      ${box.x < slices[index - 1]?.children[0].x || 0 ? reflection : '#0000 0'}
+      ${box.x < slices[slices.length - 2]?.children[0].x || 0 ? reflection : '#0000 0'}
     );
   `;
 }
@@ -102,7 +102,7 @@ const handleClick = (event) => {
       currBox.y += overlapY / 2;
 
       // Rerender the current box one more time (but grey/dead/disabled?)
-      renderSlice(slices.length - 1);
+      renderSlice();
     }
 
     // Add a new slice
@@ -124,7 +124,7 @@ b.style.cssText = `
 document.onclick = document.onkeydown = handleClick;
 
 addSlice();
-renderSlice(0);
+renderSlice();
 
 // Main game loop
 setInterval(() => {
