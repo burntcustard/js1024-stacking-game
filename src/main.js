@@ -111,10 +111,10 @@ const handleClick = (event) => {
 
 // overflow-x: hidden hides the horizontal scrollbar
 // width: 100vw means that when vertical scrollbars appear, the page content won't move 16px sideways
+// 45vh margin-bottom instead of align-content: start;
 b.style.cssText = `
   background: #112;
-  margin: 45vh 0 0;
-  align-content: start;
+  margin: 45vh 0 45vh 0;
   display: grid;
   overflow-x: hidden;
   width: 100vw;
