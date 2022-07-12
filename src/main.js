@@ -3,7 +3,9 @@ const slices = [];
 const renderSlice = (index) => {
   const box = slices[index].children[0];
   // reflection must be separate (not in .cssText), as regpack breaks nested template literals
-  const reflection = `${box.getHsla(55, 80)} 0, ${box.getHsla(55, 20)}`;
+  const getHsla = (lightness, alpha = 100) =>
+    `hsl(${index * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
+  const reflection = `${getHsla(55, 80)} 0, ${box.getHsla(55, 20)}`;
 
   // If this is the first render of the slice, slice.style.cssText is undefined, so
   // the height should be 0 to allow a transition next render to it's actual height
@@ -21,7 +23,7 @@ const renderSlice = (index) => {
     width: ${box.w}vmin;
     height: ${box.h}vmin;
     transform: rotateX(67grad) rotateZ(50grad) translate(${box.x}vmin, ${box.y}vmin);
-    background: ${box.getHsla(65)};
+    background: ${getHsla(65)};
   `;
 
   // Transform-style not required but makes more similar to box css for regpacking
@@ -35,8 +37,8 @@ const renderSlice = (index) => {
     transform-origin: top left;
     top: calc(100% - 1px);
     background: linear-gradient(
-      ${box.getHsla(55)} 50%,
-      ${box.getHsla(65)} 0 calc(50% + 1px),
+      ${getHsla(55)} 50%,
+      ${getHsla(65)} 0 calc(50% + 1px),
       ${box.y < slices[index - 1]?.children[0].y || 0 ? reflection : '#0000 0'}
     );
   `;
@@ -51,8 +53,8 @@ const renderSlice = (index) => {
     transform-origin: top left;
     left: calc(100% - 1px);
     background: linear-gradient(
-      ${box.getHsla(60)} 50%,
-      ${box.getHsla(65)} 0 calc(50% + 1px),
+      ${getHsla(60)} 50%,
+      ${getHsla(65)} 0 calc(50% + 1px),
       ${box.x < slices[index - 1]?.children[0].x || 0 ? reflection : '#0000 0'}
     );
   `;
@@ -64,8 +66,6 @@ const addSlice = (width = 40, height = 40) => {
 
   box.w = width;
   box.h = height; // More like depth
-  box.getHsla = (lightness, alpha = 100) =>
-    `hsl(${slices.length * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
 
   box['yx'[slices.length % 2]] = slices.length ? 180 : 0;
   box['xyx'[slices.length % 2]] = slices.length ? slices[slices.length - 1].children[0]['xyx'[slices.length % 2]] : 0;
