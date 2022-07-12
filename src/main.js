@@ -129,6 +129,7 @@ setInterval(() => {
   if (slices.length > 1) {
     // Move the most recently added box on the x or y dimension, dependant on it's slices index
     slices[slices.length -1].children[0]['xyx'[(slices.length) % 2]]--;
-    renderSlice(slices.length -1);
   }
+
+  renderSlice(slices.length -1); // Saves 2B having this outisde the if()
 }, 18); // 17ms ~59fps
