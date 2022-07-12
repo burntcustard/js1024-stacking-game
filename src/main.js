@@ -114,7 +114,7 @@ const handleClick = (event) => {
 // 45vh margin-bottom instead of align-content: start;
 b.style.cssText = `
   background: #112;
-  margin: 45vh 0 45vh 0;
+  margin: 45vh 0;
   display: grid;
   overflow-x: hidden;
   width: 100vw;
