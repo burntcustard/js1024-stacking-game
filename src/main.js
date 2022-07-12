@@ -18,7 +18,7 @@ const renderSlice = () => {
     display: grid;
     place-items: center;
     transition: all.8s;
-    height: ${slices[slices.length - 1].style.cssText ? '4.2' : '0'}vmin
+    height: ${slices[slices.length - 1].style.cssText ? 4.2 : 0}vmin
   `;
 
   box.style.cssText = `
