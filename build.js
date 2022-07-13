@@ -68,7 +68,7 @@ const code = minifiedJs.code
   .replace(/;$/, '');
 
 const packed = cmdRegPack(code, {
-  crushGainFactor: parseFloat(3),
+  crushLengthFactor : parseFloat(0),
 });
 
 const html = readFileSync('src/index.html', 'utf8');
