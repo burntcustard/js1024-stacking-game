@@ -64,7 +64,8 @@ const minifiedJs = await minifyJs(js, options);
 
 const code = minifiedJs.code
   // Replace all double quotes with backticks for consistency
-  .replaceAll('"', '`');
+  .replaceAll('"', '`')
+  .replace(/;$/, '');
 
 const packed = cmdRegPack(code, {
   crushGainFactor: parseFloat(3),
