@@ -127,7 +127,7 @@ b.style.cssText = `
   width: 100vw;
 `;
 
-document.onclick = document.onkeydown = handleClick;
+onclick = onkeydown = handleClick;
 
 addSlice(40, 40);
 renderSlice();
