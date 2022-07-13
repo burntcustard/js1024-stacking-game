@@ -66,8 +66,8 @@ const renderSlice = () => {
 }
 
 const addSlice = (width, height) => {
-  const slice = document.createElement('div');
-  const box = document.createElement('div');
+  const slice = document.createElement`div`;
+  const box = document.createElement`div`;
 
   box.w = width;
   box.h = height; // More like depth
@@ -76,7 +76,7 @@ const addSlice = (width, height) => {
   box['xyx'[slices.length % 2]] = slices.length ? slices[slices.length - 1].children[0]['xyx'[slices.length % 2]] : 0;
 
   // faceLeft and faceRight
-  box.append(document.createElement('div'), document.createElement('div'));
+  box.append(document.createElement`div`, document.createElement`div`);
 
   b.append(slice);
 
