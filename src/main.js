@@ -121,7 +121,7 @@ const handleClick = () => {
 // 45vh margin-bottom instead of align-content: start;
 b.style.cssText = `
   background: #112;
-  margin: 45vh 0;
+  margin: 46vh 0;
   display: grid;
   overflow-x: hidden;
   width: 100vw;
@@ -135,8 +135,8 @@ renderSlice();
 // Main game loop
 setInterval(() => {
   // If there is > 1 slice (if there's only 1, slices.length - 1 === 0 so it's falsey)
+  // Move the most recently added box on the x or y dimension, dependant on it's slices index
   if (slices.length - 1) {
-    // Move the most recently added box on the x or y dimension, dependant on it's slices index
     slices[slices.length -1].children[0]['xyx'[(slices.length) % 2]]--;
     renderSlice();
   }
