@@ -100,7 +100,7 @@ const handleClick = () => {
       currBox.w = prevBox.w - Math.abs(overlapX);
       currBox.h = prevBox.h - Math.abs(overlapY);
 
-      if (currBox.w < 0 || currBox.h < 0) {
+      if (currBox.w * currBox.h < 0) {
         alert('Game Over!');
       }
 
