@@ -64,7 +64,7 @@ const renderSlice = () => {
   `;
 }
 
-const addSlice = (width = 40, height = 40) => {
+const addSlice = (width, height) => {
   const slice = document.createElement('div');
   const box = document.createElement('div');
 
@@ -127,7 +127,7 @@ b.style.cssText = `
 
 document.onclick = document.onkeydown = handleClick;
 
-addSlice();
+addSlice(40, 40);
 renderSlice();
 
 // Main game loop
