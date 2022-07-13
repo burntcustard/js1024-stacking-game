@@ -134,7 +134,8 @@ renderSlice();
 
 // Main game loop
 setInterval(() => {
-  if (slices.length > 1) {
+  // If there is > 1 slice (if there's only 1, slices.length - 1 === 0 so it's falsey)
+  if (slices.length - 1) {
     // Move the most recently added box on the x or y dimension, dependant on it's slices index
     slices[slices.length -1].children[0]['xyx'[(slices.length) % 2]]--;
     renderSlice();
