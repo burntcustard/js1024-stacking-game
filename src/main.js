@@ -40,7 +40,7 @@ const renderSlice = () => {
     transform: rotateX(-100grad);
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
     transform-origin: 0 0;
-    top: calc(100% - .5px);
+    top: calc(100% - 1px);
     background: linear-gradient(
       hsl(${slices.length * 4}grad 80% 55%) 50%,
       hsl(${slices.length * 4}grad 100% 65%) 0 calc(50% + 1px),
@@ -56,7 +56,7 @@ const renderSlice = () => {
     transform: rotateX(-100grad) rotateY(100grad) scaleX(-1);
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
     transform-origin: 0 0;
-    left: calc(100% - .5px);
+    left: calc(100% - 1px);
     background: linear-gradient(
       hsl(${slices.length * 4}grad 90% 60%) 50%,
       hsl(${slices.length * 4}grad 100% 65%) 0 calc(50% + 1px),
