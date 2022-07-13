@@ -7,8 +7,8 @@ const renderSlice = () => {
   //   `hsl(${(slices.length - 1) * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
   // reflection must be separate (not in .cssText), as regpack breaks nested template literals
   const reflection = `
-    hsl(${(slices.length - 1) * 4}grad 80% 55% / 80%) 0,
-    hsl(${(slices.length - 1) * 4}grad 80% 55% / 20%)
+    hsl(${(slices.length - 1) * 4}grad 80% 55% / .8) 0,
+    hsl(${(slices.length - 1) * 4}grad 80% 55% / .2)
   `;
 
   // If this is the first render of the slice, slice.style.cssText is undefined, so
