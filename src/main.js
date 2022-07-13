@@ -18,7 +18,7 @@ const renderSlice = () => {
     display: grid;
     place-items: center;
     transition: all.8s;
-    height: ${slices[slices.length - 1].style.cssText ? 4.2 : 0}vmin
+    height: ${slices[slices.length - 1].style.cssText ? 4.2 : 0}vmin;
   `;
 
   slices[slices.length - 1].children[0].style.cssText = `
@@ -42,8 +42,8 @@ const renderSlice = () => {
     transform-origin: 0 0;
     top: calc(100% - 1px);
     background: linear-gradient(
-      hsl(${slices.length * 4}grad 80% 55%) 50%,
-      hsl(${slices.length * 4}grad 100% 65%) 0 calc(50% + 1px),
+      hsl(${slices.length * 4}grad 80% 55%) calc(50% - 1px),
+      hsl(${slices.length * 4}grad 100% 65%) 0 50%,
       ${slices[slices.length - 1].y < slices[slices.length - 2]?.y || 0 ? reflection : '#0000 0'}
     );
   `;
@@ -58,8 +58,8 @@ const renderSlice = () => {
     transform-origin: 0 0;
     left: calc(100% - 1px);
     background: linear-gradient(
-      hsl(${slices.length * 4}grad 90% 60%) 50%,
-      hsl(${slices.length * 4}grad 100% 65%) 0 calc(50% + 1px),
+      hsl(${slices.length * 4}grad 90% 60%) calc(50% - 1px),
+      hsl(${slices.length * 4}grad 100% 65%) 0 50%,
       ${slices[slices.length - 1].x < slices[slices.length - 2]?.x || 0 ? reflection : '#0000 0'}
     );
   `;
@@ -71,6 +71,7 @@ const addSlice = (width, height) => {
 
   slice.w = width;
   slice.h = height; // More like depth
+
 
   slice['yx'[slices.length % 2]] = slices.length ? 180 : 0;
   slice['xyx'[slices.length % 2]] = slices.length ? slices[slices.length - 1]['xyx'[slices.length % 2]] : 0;
