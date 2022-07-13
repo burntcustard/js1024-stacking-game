@@ -4,11 +4,11 @@ const renderSlice = () => {
   const box = slices[slices.length - 1].children[0];
   // getHsla manually inlined to save a few bytes
   // const getHsla = (lightness, alpha = 100) =>
-  //   `hsl(${(slices.length - 1) * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
+  //   `hsl(${slices.length * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
   // reflection must be separate (not in .cssText), as regpack breaks nested template literals
   const reflection = `
-    hsl(${(slices.length - 1) * 4}grad 80% 55% / .8) 0,
-    hsl(${(slices.length - 1) * 4}grad 80% 55% / .2)
+    hsl(${slices.length * 4}grad 80% 55% / .8) 0,
+    hsl(${slices.length * 4}grad 80% 55% / .2)
   `;
 
   // If this is the first render of the slice, slice.style.cssText is undefined, so
@@ -27,7 +27,7 @@ const renderSlice = () => {
     width: ${box.w}vmin;
     height: ${box.h}vmin;
     transform: rotateX(67grad) rotateZ(50grad) translate(${box.x}vmin, ${box.y}vmin);
-    background: hsl(${(slices.length - 1) * 4}grad 100% 65%);
+    background: hsl(${slices.length * 4}grad 100% 65%);
   `;
 
   // Transform-style not required but makes more similar to box css for regpacking
@@ -42,8 +42,8 @@ const renderSlice = () => {
     transform-origin: 0 0;
     top: calc(100% - .5px);
     background: linear-gradient(
-      hsl(${(slices.length - 1) * 4}grad 80% 55%) 50%,
-      hsl(${(slices.length - 1) * 4}grad 100% 65%) 0 calc(50% + 1px),
+      hsl(${slices.length * 4}grad 80% 55%) 50%,
+      hsl(${slices.length * 4}grad 100% 65%) 0 calc(50% + 1px),
       ${box.y < slices[slices.length - 2]?.children[0].y || 0 ? reflection : '#0000 0'}
     );
   `;
@@ -58,8 +58,8 @@ const renderSlice = () => {
     transform-origin: 0 0;
     left: calc(100% - .5px);
     background: linear-gradient(
-      hsl(${(slices.length - 1) * 4}grad 90% 60%) 50%,
-      hsl(${(slices.length - 1) * 4}grad 100% 65%) 0 calc(50% + 1px),
+      hsl(${slices.length * 4}grad 90% 60%) 50%,
+      hsl(${slices.length * 4}grad 100% 65%) 0 calc(50% + 1px),
       ${box.x < slices[slices.length - 2]?.children[0].x || 0 ? reflection : '#0000 0'}
     );
   `;
