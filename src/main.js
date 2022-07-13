@@ -31,6 +31,7 @@ const renderSlice = () => {
   `;
 
   // Transform-style not required but makes more similar to box css for regpacking
+  // transform-origin: 0 0; is top left
   box.children[0].style.cssText = `
     transform-style: preserve-3d;
     position: absolute;
@@ -38,7 +39,7 @@ const renderSlice = () => {
     height: 10vmin;
     transform: rotateX(-100grad);
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
-    transform-origin: top left;
+    transform-origin: 0 0;
     top: calc(100% - 1px);
     background: linear-gradient(
       hsl(${(slices.length - 1) * 4}grad 80% 55%) 50%,
@@ -54,7 +55,7 @@ const renderSlice = () => {
     height: 10vmin;
     transform: rotateX(-100grad) rotateY(100grad) scaleX(-1);
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
-    transform-origin: top left;
+    transform-origin: 0 0;
     left: calc(100% - 1px);
     background: linear-gradient(
       hsl(${(slices.length - 1) * 4}grad 90% 60%) 50%,
