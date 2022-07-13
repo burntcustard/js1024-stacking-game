@@ -63,15 +63,8 @@ js = js
 const minifiedJs = await minifyJs(js, options);
 
 const code = minifiedJs.code
-  // Replace double-quote with string literal to make same as other CSS strings
-  // TODO: Turn back on as it saves about 2B but is hard to maintain
-  // .replace(
-  //   '"background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start"',
-  //   '`background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start`'
-  // );
-  // Don't use let for gobal vars (very risky)
-  // .replace('let t=[]', 't=[]')
-  // .replace('let r=t', 'r=t')
+  // Replace all double quotes with backticks for consistency
+  .replaceAll('"', '`');
 
 const packed = cmdRegPack(code, {
   crushGainFactor: parseFloat(5),
