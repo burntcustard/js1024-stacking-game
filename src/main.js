@@ -139,7 +139,7 @@ setInterval(() => {
   // If there is > 1 slice (if there's only 1, slices.length - 1 === 0 so it's falsey)
   // Move the most recently added box on the x or y dimension, dependant on it's slices index
   if (slices.length - 1) {
-    slices[slices.length - 1]['xyx'[(slices.length) % 2]]--;
+    slices[slices.length - 1]['xyx'[slices.length % 2]]--;
     renderSlice();
   }
 }, 18); // 17ms ~59fps
