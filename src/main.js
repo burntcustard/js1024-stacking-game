@@ -87,7 +87,8 @@ const addSlice = (width, height) => {
 const handleClick = (event) => {
   // Removed mouse or spacebar check to save a few bytes
   // if (event.x || event.key === ' ') {
-    event.preventDefault();
+    // Remove preventDefault to save a few bytes. Makes spacebar annoyingly scrolly
+    // event.preventDefault();
 
     const prevBox = slices[slices.length - 2]?.children[0];
     const currBox = slices[slices.length - 1]?.children[0];
