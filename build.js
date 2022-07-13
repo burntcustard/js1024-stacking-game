@@ -59,7 +59,6 @@ js = js
   // Replace all strict equality comparison with abstract equality comparison
   .replaceAll('===', '==')
   // Remove the last semicolon at the end of a CSS string
-  .replaceAll(':0;`', ':0`');
 
 const minifiedJs = await minifyJs(js, options);
 
