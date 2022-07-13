@@ -39,8 +39,21 @@ js = js
     .replace(/\)\s/g, ')') // Remove spaces after closing brackets
     .replace(/;`/, '`') // Remove final semicolons
   )
-  // Replace const with let
-  .replaceAll('const', 'let')
+  // Replace slices global vars with single letter non-declared versions
+  .replaceAll(/(const\s)?slices/g, 's')
+  .replaceAll(/(const\s)?renderSlice/g, 'r')
+  .replaceAll(/(const\s)?box/g, 'o')
+  .replaceAll(/(const\s)?addSlice/g, 'a')
+  .replaceAll(/(const\s)?reflection/g, 'e')
+  .replaceAll(/(const\s)?handleClick/g, 'h')
+  .replaceAll(/(const\s)?slice/g, 'l')
+  .replaceAll(/(const\s)?prevBox/g, 'p')
+  .replaceAll(/(const\s)?currBox/g, 'c')
+  .replaceAll(/(const\s)?overlapX/g, 'x')
+  .replaceAll(/(const\s)?overlapY/g, 'y')
+
+  // // Replace const with let
+  // .replaceAll('const', 'let')
   // Hoist for() vars to global (very risky) ~4B
   .replaceAll('for(let ', 'for(')
   // Replace all strict equality comparison with abstract equality comparison
@@ -57,6 +70,9 @@ const code = minifiedJs.code
   //   '"background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start"',
   //   '`background:#112;margin:45vh 0 0;height:55vh;display:grid;align-content:start`'
   // );
+  // Don't use let for gobal vars (very risky)
+  // .replace('let t=[]', 't=[]')
+  // .replace('let r=t', 'r=t')
 
 const packed = cmdRegPack(code, {
   crushGainFactor: parseFloat(5),
