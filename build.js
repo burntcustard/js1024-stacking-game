@@ -51,14 +51,8 @@ js = js
   .replaceAll(/(const\s)?currBox/g, 'c')
   .replaceAll(/(const\s)?overlapX/g, 'x')
   .replaceAll(/(const\s)?overlapY/g, 'y')
-
-  // // Replace const with let
-  // .replaceAll('const', 'let')
-  // Hoist for() vars to global (very risky) ~4B
-  .replaceAll('for(let ', 'for(')
   // Replace all strict equality comparison with abstract equality comparison
   .replaceAll('===', '==')
-  // Remove the last semicolon at the end of a CSS string
 
 const minifiedJs = await minifyJs(js, options);
 
