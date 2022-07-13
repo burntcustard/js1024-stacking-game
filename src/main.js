@@ -103,7 +103,7 @@ const handleClick = () => {
       slices[slices.length - 1].h = slices[slices.length - 2].h - Math.abs(overlapY);
 
       if (slices[slices.length - 1].w * slices[slices.length - 1].h < 0) {
-        alert('Game Over!');
+        alert`Oops!`;
       }
 
       slices[slices.length - 1].x += overlapX / 2;
