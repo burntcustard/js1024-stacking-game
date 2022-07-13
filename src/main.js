@@ -98,9 +98,8 @@ const handleClick = () => {
     if (slices[slices.length - 2]) {
       const overlapX = slices[slices.length - 2].x - slices[slices.length - 1].x;
       const overlapY = slices[slices.length - 2].y - slices[slices.length - 1].y;
-      // `overlapX < 0 ? overlapX * -1 : overlapX` is the same as Math.abs(overlapX) but better for regpack
-      slices[slices.length - 1].w = slices[slices.length - 2].w - overlapX < 0 ? overlapX * -1 : overlapX;
-      slices[slices.length - 1].h = slices[slices.length - 2].h - overlapY < 0 ? overlapY * -1 : overlapY;
+      slices[slices.length - 1].w = slices[slices.length - 2].w - Math.abs(overlapX);
+      slices[slices.length - 1].h = slices[slices.length - 2].h - Math.abs(overlapY);
 
       if (slices[slices.length - 1].w * slices[slices.length - 1].h < 0) {
         alert('Game Over!');
