@@ -5,6 +5,7 @@ const renderSlice = () => {
   // getHsla manually inlined to save a few bytes
   // const getHsla = (lightness, alpha = 100) =>
   //   `hsl(${slices.length * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
+
   // reflection must be separate (not in .cssText), as regpack breaks nested template literals
   const reflection = `
     hsl(${slices.length * 4}grad 80% 55% / .8) 0,
