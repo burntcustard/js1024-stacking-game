@@ -1,7 +1,6 @@
 const slices = [];
 
 const renderSlice = () => {
-  const box = slices[slices.length - 1].children[0];
   // getHsla manually inlined to save a few bytes
   // const getHsla = (lightness, alpha = 100) =>
   //   `hsl(${slices.length * 4}grad ${lightness * 2 - 30}% ${lightness}% / ${alpha}%)`;
@@ -22,21 +21,21 @@ const renderSlice = () => {
     height: ${slices[slices.length - 1].style.cssText ? 4.2 : 0}vmin
   `;
 
-  box.style.cssText = `
+  slices[slices.length - 1].children[0].style.cssText = `
     transform-style: preserve-3d;
     position: absolute;
-    width: ${box.w}vmin;
-    height: ${box.h}vmin;
-    transform: rotateX(67grad) rotateZ(50grad) translate(${box.x}vmin, ${box.y}vmin);
+    width: ${slices[slices.length - 1].w}vmin;
+    height: ${slices[slices.length - 1].h}vmin;
+    transform: rotateX(67grad) rotateZ(50grad) translate(${slices[slices.length - 1].x}vmin, ${slices[slices.length - 1].y}vmin);
     background: hsl(${slices.length * 4}grad 100% 65%);
   `;
 
   // Transform-style not required but makes more similar to box css for regpacking
   // transform-origin: 0 0; is top left
-  box.children[0].style.cssText = `
+  slices[slices.length - 1].children[0].children[0].style.cssText = `
     transform-style: preserve-3d;
     position: absolute;
-    width: ${box.w}vmin;
+    width: ${slices[slices.length - 1].w}vmin;
     height: 10vmin;
     transform: rotateX(-100grad);
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
@@ -45,14 +44,14 @@ const renderSlice = () => {
     background: linear-gradient(
       hsl(${slices.length * 4}grad 80% 55%) 50%,
       hsl(${slices.length * 4}grad 100% 65%) 0 calc(50% + 1px),
-      ${box.y < slices[slices.length - 2]?.children[0].y || 0 ? reflection : '#0000 0'}
+      ${slices[slices.length - 1].y < slices[slices.length - 2]?.y || 0 ? reflection : '#0000 0'}
     );
   `;
 
-  box.children[1].style.cssText = `
+  slices[slices.length - 1].children[0].children[1].style.cssText = `
     transform-style: preserve-3d;
     position: absolute;
-    width: ${box.h}vmin;
+    width: ${slices[slices.length - 1].h}vmin;
     height: 10vmin;
     transform: rotateX(-100grad) rotateY(100grad) scaleX(-1);
     clip-path: polygon(0 0, 100% 0, 100% 50%, calc(100% - 6.3vmin) 100%, 0 100%);
@@ -61,7 +60,7 @@ const renderSlice = () => {
     background: linear-gradient(
       hsl(${slices.length * 4}grad 90% 60%) 50%,
       hsl(${slices.length * 4}grad 100% 65%) 0 calc(50% + 1px),
-      ${box.x < slices[slices.length - 2]?.children[0].x || 0 ? reflection : '#0000 0'}
+      ${slices[slices.length - 1].x < slices[slices.length - 2]?.x || 0 ? reflection : '#0000 0'}
     );
   `;
 }
@@ -70,11 +69,11 @@ const addSlice = (width, height) => {
   const slice = document.createElement`div`;
   const box = document.createElement`div`;
 
-  box.w = width;
-  box.h = height; // More like depth
+  slice.w = width;
+  slice.h = height; // More like depth
 
-  box['yx'[slices.length % 2]] = slices.length ? 180 : 0;
-  box['xyx'[slices.length % 2]] = slices.length ? slices[slices.length - 1].children[0]['xyx'[slices.length % 2]] : 0;
+  slice['yx'[slices.length % 2]] = slices.length ? 180 : 0;
+  slice['xyx'[slices.length % 2]] = slices.length ? slices[slices.length - 1]['xyx'[slices.length % 2]] : 0;
 
   // faceLeft and faceRight
   box.append(document.createElement`div`, document.createElement`div`);
@@ -92,28 +91,29 @@ const handleClick = () => {
     // Remove preventDefault to save a few bytes. Makes spacebar annoyingly scrolly
     // event.preventDefault();
 
-    const prevBox = slices[slices.length - 2]?.children[0];
-    const currBox = slices[slices.length - 1]?.children[0];
+    // Previously called 'prevBox & currBox, then renamed, then inlined completely
+    // const prevSlice = slices[slices.length - 2];
+    // const currSlice = slices[slices.length - 1];
 
-    if (prevBox) {
-      const overlapX = prevBox.x - currBox.x;
-      const overlapY = prevBox.y - currBox.y;
-      currBox.w = prevBox.w - Math.abs(overlapX);
-      currBox.h = prevBox.h - Math.abs(overlapY);
+    if (slices[slices.length - 2]) {
+      const overlapX = slices[slices.length - 2].x - slices[slices.length - 1].x;
+      const overlapY = slices[slices.length - 2].y - slices[slices.length - 1].y;
+      slices[slices.length - 1].w = slices[slices.length - 2].w - Math.abs(overlapX);
+      slices[slices.length - 1].h = slices[slices.length - 2].h - Math.abs(overlapY);
 
-      if (currBox.w * currBox.h < 0) {
+      if (slices[slices.length - 1].w * slices[slices.length - 1].h < 0) {
         alert('Game Over!');
       }
 
-      currBox.x += overlapX / 2;
-      currBox.y += overlapY / 2;
+      slices[slices.length - 1].x += overlapX / 2;
+      slices[slices.length - 1].y += overlapY / 2;
     }
 
     // Rerender the current box one more time (but grey/dead/disabled?)
     renderSlice();
 
     // Add a new slice
-    addSlice(currBox.w, currBox.h);
+    addSlice(slices[slices.length - 1].w, slices[slices.length - 1].h);
   // }
 }
 
@@ -138,7 +138,7 @@ setInterval(() => {
   // If there is > 1 slice (if there's only 1, slices.length - 1 === 0 so it's falsey)
   // Move the most recently added box on the x or y dimension, dependant on it's slices index
   if (slices.length - 1) {
-    slices[slices.length -1].children[0]['xyx'[(slices.length) % 2]]--;
+    slices[slices.length -1]['xyx'[(slices.length) % 2]]--;
     renderSlice();
   }
 }, 18); // 17ms ~59fps
