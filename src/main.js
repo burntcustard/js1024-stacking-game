@@ -14,7 +14,7 @@ const renderSlice = () => {
   // If this is the first render of the slice, slice.style.cssText is undefined, so
   // the height should be 0 to allow a transition next render to it's actual height
   slices[slices.length - 1].style.cssText = `
-    grid-row: -${slices.length - 1};
+    grid-row: -${slices.length};
     display: grid;
     place-items: center;
     transition: all.8s;
@@ -66,22 +66,19 @@ const renderSlice = () => {
 }
 
 const addSlice = (width, height) => {
-  const slice = document.createElement`div`;
-  const box = document.createElement`div`;
+  const slice = b.appendChild(document.createElement`div`);
+  const box = slice.appendChild(document.createElement`div`);
 
   slice.w = width;
   slice.h = height; // More like depth
-
 
   slice['yx'[slices.length % 2]] = slices.length ? 180 : 0;
   slice['xyx'[slices.length % 2]] = slices.length ? slices[slices.length - 1]['xyx'[slices.length % 2]] : 0;
 
   // faceLeft and faceRight
-  box.append(document.createElement`div`, document.createElement`div`);
+  box.appendChild(document.createElement`div`);
+  box.appendChild(document.createElement`div`);
 
-  b.append(slice);
-
-  slice.append(box);
   // slices.push(slice); // Replaced with index method of pushing to save 4B
   slices[slices.length] = slice;
 }
@@ -103,7 +100,7 @@ const handleClick = () => {
       slices[slices.length - 1].h = slices[slices.length - 2].h - Math.abs(overlapY);
 
       if (slices[slices.length - 1].w * slices[slices.length - 1].h < 0) {
-        alert`Oops!`;
+        alert`⟳ to retry`;
       }
 
       slices[slices.length - 1].x += overlapX / 2;
