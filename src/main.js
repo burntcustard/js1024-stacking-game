@@ -72,8 +72,8 @@ const addSlice = (width, height) => {
   slice.w = width;
   slice.h = height; // More like depth
 
-  slice['yx'[slices.length % 2]] = slices.length ? 180 : 0;
-  slice['xyx'[slices.length % 2]] = slices.length ? slices[slices.length - 1]['xyx'[slices.length % 2]] : 0;
+  slice['xy'[slices.length % 2]] = slices.length ? 180 : 0;
+  slice['yxy'[slices.length % 2]] = slices.length ? slices[slices.length - 1]['yxy'[slices.length % 2]] : 0;
 
   // faceLeft and faceRight
   box.appendChild(document.createElement`div`);
@@ -136,7 +136,7 @@ setInterval(() => {
   // If there is > 1 slice (if there's only 1, slices.length - 1 === 0 so it's falsey)
   // Move the most recently added box on the x or y dimension, dependant on it's slices index
   if (slices.length - 1) {
-    slices[slices.length - 1]['xyx'[slices.length % 2]]--;
+    slices[slices.length - 1]['yxy'[slices.length % 2]]--;
     renderSlice();
   }
 }, 18); // 17ms ~59fps
