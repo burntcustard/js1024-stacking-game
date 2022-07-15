@@ -22,18 +22,17 @@ const renderSlice = () => {
   `;
 
   slices[slices.length - 1].children[0].style.cssText = `
-    transform-style: preserve-3d;
     position: absolute;
     width: ${slices[slices.length - 1].w}vmin;
     height: ${slices[slices.length - 1].h}vmin;
     transform: rotateX(67grad) rotateZ(50grad) translate(${slices[slices.length - 1].x}vmin, ${slices[slices.length - 1].y}vmin);
     background: hsl(${slices.length * 4}grad 100% 65%);
+    transform-style: preserve-3d;
   `;
 
   // Transform-style not required but makes more similar to box css for regpacking
   // transform-origin: 0 0; is top left
   slices[slices.length - 1].children[0].children[0].style.cssText = `
-    transform-style: preserve-3d;
     position: absolute;
     width: ${slices[slices.length - 1].w}vmin;
     height: 10vmin;
@@ -49,7 +48,6 @@ const renderSlice = () => {
   `;
 
   slices[slices.length - 1].children[0].children[1].style.cssText = `
-    transform-style: preserve-3d;
     position: absolute;
     width: ${slices[slices.length - 1].h}vmin;
     height: 10vmin;
