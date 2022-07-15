@@ -59,6 +59,7 @@ const minifiedJs = await minifyJs(js, options);
 const code = minifiedJs.code
   // Replace all double quotes with backticks for consistency
   .replaceAll('"', '`')
+  // Remove final semicolon
   .replace(/;$/, '');
 
 const packed = cmdRegPack(code, {
